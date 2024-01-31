@@ -11,7 +11,7 @@ function App() {
     await window.ethereum.request({ method: "eth_requestAccounts" });
   }
 
-  const setMessage = async (newMessage) => {
+  const setMessage = async () => {
     if (!inputValue) return;
 
     if (typeof window.ethereum !== "undefined") {
@@ -25,10 +25,7 @@ function App() {
       );
 
       try {
-        console.log("Setting new message...");
-        console.log(newMessage);
-
-        const newMessageTxn = await contract.setMessage(newMessage);
+        const newMessageTxn = await contract.setMessage(inputValue);
         await newMessageTxn.wait();
         console.log("New Message Set!");
       } catch (err) {

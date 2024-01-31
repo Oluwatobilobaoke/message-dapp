@@ -1,13 +1,4 @@
-# Sample Hardhat Project
+# My Message Dapp
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
-
-Try running some of the following tasks:
-
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.js
-```
+This project demonstrates a basic smnart contract and a simple frontend to interact with it.
+MyMessage Dapp is a simple smart contract that allows users to set a message and retrieve it.
