@@ -1,15 +1,19 @@
 import logo from "./logo.svg";
 import "./App.css";
 import contractABI from "./abi.json";
+import { useState } from "react";
 const ethers = require("ethers");
 const contractAddress = "0x33304C05C5e68429E64BBA8fA6F65fCd8A218E29";
-
 function App() {
+  const [inputValue, setInputValue] = useState("");
+
   async function requestAccount() {
     await window.ethereum.request({ method: "eth_requestAccounts" });
   }
 
-  async function setMessage(newMessage) {
+  const setMessage = async (newMessage) => {
+    if (!inputValue) return;
+
     if (typeof window.ethereum !== "undefined") {
       await requestAccount();
       const provider = new ethers.BrowserProvider(window.ethereum);
@@ -21,6 +25,9 @@ function App() {
       );
 
       try {
+        console.log("Setting new message...");
+        console.log(newMessage);
+
         const newMessageTxn = await contract.setMessage(newMessage);
         await newMessageTxn.wait();
         console.log("New Message Set!");
@@ -28,7 +35,7 @@ function App() {
         console.error("Error:", err);
       }
     }
-  }
+  };
   async function readMessage() {
     if (typeof window.ethereum !== "undefined") {
       await requestAccount();
@@ -61,7 +68,7 @@ function App() {
           <input
             type="text"
             placeholder="Enter your message"
-            onChange={(event) => setMessage(event.target.value)}
+            onChange={(event) => setInputValue(event.target.value)}
           />
         </div>
         <button onClick={setMessage}>Set Message</button>
