@@ -9,7 +9,26 @@ function App() {
     await window.ethereum.request({ method: "eth_requestAccounts" });
   }
 
+  async function setMessage(newMessage) {
+    if (typeof window.ethereum !== "undefined") {
+      await requestAccount();
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const signer = await provider.getSigner();
+      const contract = new ethers.Contract(
+        contractAddress,
+        contractABI,
+        signer
+      );
 
+      try {
+        const newMessageTxn = await contract.setMessage(newMessage);
+        await newMessageTxn.wait();
+        console.log("New Message Set!");
+      } catch (err) {
+        console.error("Error:", err);
+      }
+    }
+  }
   async function readMessage() {
     if (typeof window.ethereum !== "undefined") {
       await requestAccount();
@@ -23,6 +42,8 @@ function App() {
 
       try {
         const message = await contract.getMessage();
+
+        // alert the message
         console.log(message);
       } catch (err) {
         console.error("Error:", err);
@@ -34,18 +55,16 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <p>My Message Dapp</p>
 
+        <div>
+          <input
+            type="text"
+            placeholder="Enter your message"
+            onChange={(event) => setMessage(event.target.value)}
+          />
+          <button onClick={setMessage}>Set Message</button>
+        </div>
         <div>
           <button onClick={readMessage}>Read Message</button>
         </div>
