@@ -63,8 +63,9 @@ function App() {
             placeholder="Enter your message"
             onChange={(event) => setMessage(event.target.value)}
           />
-          <button onClick={setMessage}>Set Message</button>
         </div>
+        <button onClick={setMessage}>Set Message</button>
+
         <div>
           <button onClick={readMessage}>Read Message</button>
         </div>
